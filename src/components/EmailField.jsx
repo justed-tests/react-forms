@@ -3,7 +3,7 @@ let validator = require('email-validator')
 
 let EmailField = React.createClass({
   render: function () {
-    let formClass = this.state.valid ? 'form-group' : 'form-group has-error'
+    let formClass = this.state.valid || this.state.notChanged ? 'form-group' : 'form-group has-error'
 
     return (
       <div className={formClass}>
@@ -13,7 +13,8 @@ let EmailField = React.createClass({
   },
   getInitialState: function () {
     return {
-      valid: true,
+      valid: false,
+      notChanged: true,
       value: ''
     }
   },
@@ -22,9 +23,16 @@ let EmailField = React.createClass({
     var isValid = validator.validate(value)
     this.setState({
       value: value,
-      valid: isValid
+      valid: isValid,
+      notChanged: false
+    })
+  },
+  clear: function () {
+    this.setState({
+      value: ''
     })
   }
+
 })
 
 module.exports = EmailField
